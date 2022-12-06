@@ -4,20 +4,23 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>%UNITY_WEB_NAME%</title>
-	<script src="%UNITY_WEBGL_LOADER_URL%"></script>
+	<title>Syncmax_Nestum</title>
+	<link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+	<script src="Build/UnityLoader.js"></script>
 	<script>
-		var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");
+		var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Builds.json", {onProgress: UnityProgress});
 		var scaleToFit;
 		try {
-			scaleToFit = !!JSON.parse("%UNITY_CUSTOM_SCALE_TO_FIT%");
+			scaleToFit = !!JSON.parse("true");
 		} catch (e) {
 			scaleToFit = true;
 		}
 
 		function onResize() {
-			var canvas = gameInstance.Module.canvas;
-			var container = gameInstance.container;
+			var canvas = unityInstance.Module.canvas;
+			var container = unityInstance.container;
 			var w;
 			var h;
 
@@ -25,15 +28,15 @@
 				w = window.innerWidth;
 				h = window.innerHeight;
 
-				var r = %UNITY_HEIGHT% / %UNITY_WIDTH%;
+				var r = 1280 / 720;
 
 				if (w * r > window.innerHeight) {
 					w = Math.min(w, Math.ceil(h / r));
 				}
 				h = Math.floor(w * r);
 			} else {
-				w = %UNITY_WIDTH%;
-				h = %UNITY_HEIGHT%;
+				w = 720;
+				h = 1280;
 			}
 
 			container.style.width = canvas.style.width = w + "px";
@@ -43,43 +46,27 @@
 		}
 		window.addEventListener('resize', onResize);
 	</script>
-	<style>
-		html,
-		body {
-			background: #000;
-			background: %UNITY_CUSTOM_BACKGROUND%;
-			width: 100%;
-			height: 100%;
-			overflow: visible;
-			padding: 0;
-			margin: 0;
-		}
-
-		div#gameContainer {
-			background: transparent !important;
-			position: absolute;
-		}
-
-		div#gameContainer canvas {
-			position: absolute;
-		}
-
-		div#gameContainer[data-pixelated='true'] canvas {
-			image-rendering: optimizeSpeed;
-			image-rendering: -webkit-crisp-edges;
-			image-rendering: -moz-crisp-edges;
-			image-rendering: -o-crisp-edges;
-			image-rendering: crisp-edges;
-			image-rendering: -webkit-optimize-contrast;
-			image-rendering: optimize-contrast;
-			image-rendering: pixelated;
-			-ms-interpolation-mode: nearest-neighbor;
-		}
-	</style>
 </head>
 
 <body onload="onResize();">
-	<div id="gameContainer" data-pixelated="%UNITY_CUSTOM_OPTIMIZE_FOR_PIXEL_ART%"></div>
+	<div id="gameContainer" data-pixelated=""></div>
+
+	<div id="custom-logo" hidden></div>
+
+    <div id="custom-loader" hidden>
+	  <div class="filleborder"></div>
+	  <div class="fill"></div>
+	  <div class="label"></div>
+	</div>
+	
+	<div class="webgl-content">
+		<div id="unityContainer" style="width: 720px; height: 1280px"></div>
+		<div class="footer">
+		  <div class="webgl-logo"></div>
+		  <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+		  <div class="title">Syncmax_Nestum</div>
+		</div>
+	  </div>
 </body>
 
 </html>

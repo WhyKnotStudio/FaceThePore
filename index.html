@@ -1,119 +1,126 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | FaceThePore_Unity</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-  </head>
-  <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=720 height=1280></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">FaceThePore_Unity</div>
-      </div>
-    </div>
-    <script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      var warningBanner = document.querySelector("#unity-warning");
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="manifest" href="manifest.webmanifest">
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #000000;
+            overflow: hidden;
+		}
+        #canvasArea {
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
         }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/FaceThePore_Unity_Build.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/FaceThePore_Unity_Build.data",
-        frameworkUrl: buildUrl + "/FaceThePore_Unity_Build.framework.js",
-        codeUrl: buildUrl + "/FaceThePore_Unity_Build.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Why Knot Studio",
-        productName: "FaceThePore_Unity",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
+        
+	</style>
+    <!-- Libs and GDJS core files : -->
+		<script src="libs/jshashtable.js" crossorigin="anonymous"></script>
+	<script src="logger.js" crossorigin="anonymous"></script>
+	<script src="gd.js" crossorigin="anonymous"></script>
+	<script src="libs/rbush.js" crossorigin="anonymous"></script>
+	<script src="AsyncTasksManager.js" crossorigin="anonymous"></script>
+	<script src="inputmanager.js" crossorigin="anonymous"></script>
+	<script src="jsonmanager.js" crossorigin="anonymous"></script>
+	<script src="timemanager.js" crossorigin="anonymous"></script>
+	<script src="polygon.js" crossorigin="anonymous"></script>
+	<script src="runtimeobject.js" crossorigin="anonymous"></script>
+	<script src="profiler.js" crossorigin="anonymous"></script>
+	<script src="runtimescene.js" crossorigin="anonymous"></script>
+	<script src="scenestack.js" crossorigin="anonymous"></script>
+	<script src="force.js" crossorigin="anonymous"></script>
+	<script src="layer.js" crossorigin="anonymous"></script>
+	<script src="timer.js" crossorigin="anonymous"></script>
+	<script src="runtimegame.js" crossorigin="anonymous"></script>
+	<script src="variable.js" crossorigin="anonymous"></script>
+	<script src="variablescontainer.js" crossorigin="anonymous"></script>
+	<script src="oncetriggers.js" crossorigin="anonymous"></script>
+	<script src="runtimebehavior.js" crossorigin="anonymous"></script>
+	<script src="spriteruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="affinetransformation.js" crossorigin="anonymous"></script>
+	<script src="events-tools/commontools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/variabletools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/runtimescenetools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/inputtools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/objecttools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/cameratools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/soundtools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/storagetools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/stringtools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/windowtools.js" crossorigin="anonymous"></script>
+	<script src="events-tools/networktools.js" crossorigin="anonymous"></script>
+	<script src="splash/gd-logo-dark.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/pixi.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/pixi-filters-tools.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/runtimegame-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/runtimescene-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/layer-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/pixi-image-manager.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/pixi-bitmapfont-manager.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/spriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/loadingscreen-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="pixi-renderers/pixi-effects-manager.js" crossorigin="anonymous"></script>
+	<script src="howler-sound-manager/howler.min.js" crossorigin="anonymous"></script>
+	<script src="howler-sound-manager/howler-sound-manager.js" crossorigin="anonymous"></script>
+	<script src="fontfaceobserver-font-manager/fontfaceobserver.js" crossorigin="anonymous"></script>
+	<script src="fontfaceobserver-font-manager/fontfaceobserver-font-manager.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextObject/textruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextObject/textruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TweenBehavior/shifty.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TweenBehavior/shifty_setup.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TweenBehavior/tweenruntimebehavior.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextEntryObject/textentryruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextEntryObject/textentryruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextInput/textinputruntimeobject.js" crossorigin="anonymous"></script>
+	<script src="Extensions/TextInput/textinputruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+	<script src="code0.js" crossorigin="anonymous"></script>
+	<script src="code1.js" crossorigin="anonymous"></script>
+	<script src="code2.js" crossorigin="anonymous"></script>
+	<script src="code3.js" crossorigin="anonymous"></script>
+	<script src="gdjs-evtsext__spritemasking__mask-func.js" crossorigin="anonymous"></script>
+	<script src="code4.js" crossorigin="anonymous"></script>
+	<script src="code5.js" crossorigin="anonymous"></script>
+	<script src="code6.js" crossorigin="anonymous"></script>
+	<script src="code7.js" crossorigin="anonymous"></script>
+	<script src="code8.js" crossorigin="anonymous"></script>
+	<script src="code9.js" crossorigin="anonymous"></script>
+	<script src="code10.js" crossorigin="anonymous"></script>
+	<script src="data.js" crossorigin="anonymous"></script>
 
-      // By default Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
+</head>
+<body>
 
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
+    
+	<script>
 
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
+    (function() {
+        //Initialization
+        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
 
-        //unityShowBanner('WebGL builds are not supported on mobile devices.');
-      } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        //Create a renderer
+        game.getRenderer().createStandardCanvas(document.body);
 
-        canvas.style.width = "720px";
-        canvas.style.height = "1280px";
-      }
+        //Bind keyboards/mouse/touch events
+        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
 
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
+        //Load all assets and start the game
+        game.loadAllAssets(function() {
+            game.startGameLoop();
         });
-      };
-      document.body.appendChild(script);
-    </script>
-  </body>
+    })();
+
+	</script>
+</body>
 </html>

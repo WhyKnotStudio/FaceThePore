@@ -1,0 +1,82 @@
+body {
+  /* background-image: url("Image/BG_2ndLayer.png"); */
+  margin-top: 100px;
+  margin-left: 28%;
+  margin-right: 28%;
+  text-align: center;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-color: #fef2ee;
+}
+
+.game-title{
+  width: 35%;
+  height: 35%;
+}
+
+.banner{
+  margin-top: 25px;
+  width: 55%;
+  height: 55%;
+}
+
+.thank-you-text{
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+p {
+  font-size: 15px;
+}
+
+.red-pimple{
+  margin-top: 150px;
+  width: 20%;
+  height: 20%;
+}
+
+@media screen and (max-width: 800px) {
+  body {
+    /* background-image: url("Image/BG_2ndLayer.png"); */
+    margin-top: 80px;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: center;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    background-color: #fef2ee;
+  }
+  
+  .game-title{
+    margin-left: -10%;
+    margin-right: -10%;
+    width: 80%;
+    height: 80%;
+  }
+  
+  .banner{
+    margin-top: 25px;
+    margin-left: -25%;
+    margin-right: -30%;
+    width: 160%;
+    height: 160%;
+  }
+  
+  .thank-you-text{
+    margin-top: 25px;
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+  
+  p {
+    font-size: 80%;
+  }
+  
+  .red-pimple{
+    margin-top: 150px;
+    width: 80%;
+    height: 80%;
+  }
+}
